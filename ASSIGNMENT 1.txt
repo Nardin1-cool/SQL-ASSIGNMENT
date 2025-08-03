@@ -1,3 +1,8 @@
+NAMES: ISHIMWE SUSURUTSA Nardin
+ID:2727
+AUCA
+DBMS ASSIGNMENT
+
 1.Concatenate first and last name as full_name
 
 SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
@@ -886,4 +891,5 @@ FROM employees;
 | Hank       | Wilson    |          2 | Not Anniversary Month |
 | Ivy        | Clark     |          8 | Anniversary Month     |
 | Jake       | White     |          5 | Not Anniversary Month |
+
 +------------+-----------+------------+-----------------------+
