@@ -1,0 +1,889 @@
+1.Concatenate first and last name as full_name
+
+SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
+
+| full_name     |
++---------------+
+| Alice Johnson |
+| Bob  Smith    |
+| Carol Adams   |
+| David  Lee    |
+| Eve Martins   |
+| Frank  Green  |
+| Grace Brown   |
+| Hank  Wilson  |
+| Ivy Clark     |
+| Jake  White   |
++---------------+
+
+2.Convert all employee names to lowercase
+
+SELECT LOWER(first_name) AS lower_first, LOWER(last_name) AS lower_last FROM employees;
++-------------+------------+
+| lower_first | lower_last |
++-------------+------------+
+| alice       | johnson    |
+| bob         | smith      |
+| carol       | adams      |
+| david       | lee        |
+| eve         | martins    |
+| frank       | green      |
+| grace       | brown      |
+| hank        | wilson     |
+| ivy         | clark      |
+| jake        | white      |
++-------------+------------+
+
+3.Extract first 3 letters of the employee's first name
+
+SELECT SUBSTRING(first_name, 1, 3) AS short_name FROM employees;
++------------+
+| short_name |
++------------+
+| Ali        |
+| Bob        |
+| Car        |
+| Dav        |
+| Eve        |
+| Fra        |
+| Gra        |
+| Han        |
+| Ivy        |
+| Jak        |
++------------+
+
+
+4.Replace '@company.com' in email with '@org.com'
+
+SELECT REPLACE(email, '@company.com', '@org.com') AS new_email FROM employees;
++-----------------------+
+| new_email             |
++-----------------------+
+| alice.johnson@org.com |
+| bob.smith@org.com     |
+| carol.adams@org.com   |
+| david.lee@org.com     |
+| eve.martins@org.com   |
+| frank.green@org.com   |
+| grace.brown@org.com   |
+| hank.wilson@org.com   |
+| ivy.clark@org.com     |
+| jake.white@org.com    |
++-----------------------+
+
+5.Trim spaces from a padded string
+
+SELECT TRIM('   Revenue Authority   ') AS trimmed_text;
++-------------------+
+| trimmed_text      |
++-------------------+
+| Revenue Authority |
++-------------------+
+
+6.Count characters in an employee’s full name
+
+SELECT LENGTH(CONCAT(first_name, last_name)) AS name_length FROM employees;
++-------------+
+| name_length |
++-------------+
+|          12 |
+|           9 |
+|          10 |
+|           9 |
+|          10 |
+|          11 |
+|          10 |
+|          11 |
+|           8 |
+|          10 |
++-------------+
+
+
+7.Find position of '@' in email
+
+SELECT INSTR(email, '@') AS at_position FROM employees;
++-------------+
+| at_position |
++-------------+
+|          14 |
+|          10 |
+|          12 |
+|          10 |
+|          12 |
+|          12 |
+|          12 |
+|          12 |
+|          10 |
+|          11 |
++-------------+
+8.Add ‘Mr.’ or ‘Ms.’ before names based on gender (assume gender exists)
+
+-- Assuming a `gender` column exists: 'M' for male, 'F' for female
+SELECT 
+  CASE 
+    WHEN gender = 'M' THEN CONCAT('Mr. ', first_name, ' ', last_name)
+    WHEN gender = 'F' THEN CONCAT('Ms. ', first_name, ' ', last_name)
+    ELSE CONCAT(first_name, ' ', last_name)
+  END AS titled_name 
+FROM employees;
+
+9.Format project names to uppercase
+
+SELECT UPPER(project_name) AS upper_name FROM projects;
++---------------------------+
+| upper_name                |
++---------------------------+
+| HR REVAMP                 |
+| FINANCE AUTOMATION        |
+| IT INFRASTRUCTURE UPGRADE |
+| MARKETING BLITZ 2025      |
+| LEGAL COMPLIANCE          |
+| CUSTOMER PORTAL           |
+| SALES BOOSTER             |
+| R&D PILOT                 |
+| PROCUREMENT TRACKER       |
+| OPERATIONS STREAMLINE     |
++---------------------------+
+
+10.Remove any dashes from project names
+
+SELECT REPLACE(project_name, '-', '') AS cleaned_name FROM projects;
++---------------------------+
+| cleaned_name              |
++---------------------------+
+| HR Revamp                 |
+| Finance Automation        |
+| IT Infrastructure Upgrade |
+| Marketing Blitz 2025      |
+| Legal Compliance          |
+| Customer Portal           |
+| Sales Booster             |
+| R&D Pilot                 |
+| Procurement Tracker       |
+| Operations Streamline     |
++---------------------------+
+
+11.Create a label like “Emp: John Doe (HR)”
+
+SELECT CONCAT('Emp: ', first_name, ' ', last_name, ' (', department_name, ')') AS employee_label
+FROM employees
+JOIN departments ON employees.department_id = departments.department_id;
++-------------------------------------------+
+| employee_label                            |
++-------------------------------------------+
+| Emp: Alice Johnson (Human Resources)      |
+| Emp: Bob  Smith (Information Technology)  |
+| Emp: Carol Adams (Finance)                |
+| Emp: David  Lee (Marketing)               |
+| Emp: Eve Martins (Information Technology) |
+| Emp: Frank  Green (Sales)                 |
+| Emp: Grace Brown (Legal)                  |
+| Emp: Hank  Wilson (Operations)            |
+| Emp: Ivy Clark (Research and Development) |
+| Emp: Jake  White (Customer Service)       |
++-------------------------------------------+
+
+12.Check email length for each employee
+
+SELECT LENGTH(email) AS email_length FROM employees;
++--------------+
+| email_length |
++--------------+
+|           25 |
+|           21 |
+|           23 |
+|           21 |
+|           23 |
+|           23 |
+|           23 |
+|           23 |
+|           21 |
+|           22 |
++--------------+
+
+13.Extract last name only from email (before @)
+
+SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(email, '.', -2), '@', 1) AS last_name_part FROM employees;
++----------------+
+| last_name_part |
++----------------+
+| johnson        |
+| smith          |
+| adams          |
+| lee            |
+| martins        |
+| green          |
+| brown          |
+| wilson         |
+| clark          |
+| white          |
++----------------+
+14.Format: “LASTNAME, Firstname” using UPPER and CONCAT
+
+SELECT CONCAT(UPPER(last_name), ', ', first_name) AS formatted_name FROM employees;
++----------------+
+| formatted_name |
++----------------+
+| JOHNSON, Alice |
+| SMITH, Bob     |
+| ADAMS, Carol   |
+| LEE, David     |
+| MARTINS, Eve   |
+| GREEN, Frank   |
+| BROWN, Grace   |
+| WILSON, Hank   |
+| CLARK, Ivy     |
+| WHITE, Jake    |
++----------------+
+
+15.Add “(Active)” next to employee names who have current projects
+
+SELECT 
+  CONCAT(first_name, ' ', last_name,
+    CASE 
+      WHEN p.end_date IS NULL THEN ' (Active)'
+      ELSE ''
+    END) AS status_name
+FROM employees e
+JOIN employee_projects ep ON e.employee_id = ep.employee_id
+JOIN projects p ON ep.project_id = p.project_id;
++----------------------+
+| status_name          |
++----------------------+
+| Alice Johnson        |
+| Bob  Smith (Active)  |
+| Carol Adams          |
+| David  Lee           |
+| Eve Martins (Active) |
+| Frank  Green         |
+| Grace Brown          |
+| Hank  Wilson         |
+| Ivy Clark (Active)   |
+| Jake  White          |
++----------------------+
+
+16.Round salary to the nearest whole number
+
+SELECT first_name, last_name, ROUND(salary) AS rounded_salary FROM employees;
++------------+-----------+----------------+
+| first_name | last_name | rounded_salary |
++------------+-----------+----------------+
+| Alice      | Johnson   |           4500 |
+| Bob        | Smith     |           5200 |
+| Carol      | Adams     |           6700 |
+| David      | Lee       |           6700 |
+| Eve        | Martins   |           4000 |
+| Frank      | Green     |           6000 |
+| Grace      | Brown     |           4900 |
+| Hank       | Wilson    |           3100 |
+| Ivy        | Clark     |           2700 |
+| Jake       | White     |           3600 |
++------------+-----------+----------------+
+
+17.Show only even salaries using MOD
+
+SELECT first_name, last_name, salary 
+FROM employees 
+WHERE MOD(ROUND(salary), 2) = 0;
++------------+-----------+---------+
+| first_name | last_name | salary  |
++------------+-----------+---------+
+| Alice      | Johnson   | 4500.00 |
+| Bob        | Smith     | 5200.00 |
+| Carol      | Adams     | 6700.00 |
+| David      | Lee       | 6700.00 |
+| Eve        | Martins   | 4000.00 |
+| Frank      | Green     | 6000.00 |
+| Grace      | Brown     | 4900.00 |
+| Hank       | Wilson    | 3100.00 |
+| Ivy        | Clark     | 2700.00 |
+| Jake       | White     | 3600.00 |
++------------+-----------+---------+
+
+18.Show difference between two project end/start dates using DATEDIFF
+
+SELECT project_name, DATEDIFF(end_date, start_date) AS duration_days 
+FROM projects 
+WHERE end_date IS NOT NULL;
++-----------------------+---------------+
+| project_name          | duration_days |
++-----------------------+---------------+
+| HR Revamp             |           364 |
+| Finance Automation    |           350 |
+| Marketing Blitz 2025  |           149 |
+| Legal Compliance      |           184 |
+| Customer Portal       |           364 |
+| Sales Booster         |           364 |
+| Procurement Tracker   |           245 |
+| Operations Streamline |           365 |
++-----------------------+---------------+
+
+19.Show absolute difference in salaries between two employees
+
+SELECT 
+  ABS(e1.salary - e2.salary) AS salary_difference 
+FROM employees e1, employees e2 
+WHERE e1.employee_id = 101 AND e2.employee_id = 103;
++-------------------+
+| salary_difference |
++-------------------+
+|           2200.00 |
++-------------------+
+
+20.Raise salary by 10% using POWER
+
+SELECT first_name, last_name, salary, salary * POWER(1.10, 1) AS raised_salary FROM employees;
++------------+-----------+---------+--------------------+
+| first_name | last_name | salary  | raised_salary      |
++------------+-----------+---------+--------------------+
+| Alice      | Johnson   | 4500.00 |               4950 |
+| Bob        | Smith     | 5200.00 |  5720.000000000001 |
+| Carol      | Adams     | 6700.00 |  7370.000000000001 |
+| David      | Lee       | 6700.00 |  7370.000000000001 |
+| Eve        | Martins   | 4000.00 |               4400 |
+| Frank      | Green     | 6000.00 |  6600.000000000001 |
+| Grace      | Brown     | 4900.00 |               5390 |
+| Hank       | Wilson    | 3100.00 | 3410.0000000000005 |
+| Ivy        | Clark     | 2700.00 | 2970.0000000000005 |
+| Jake       | White     | 3600.00 | 3960.0000000000005 |
++------------+-----------+---------+--------------------+
+21.Generate a random number for testing IDs
+
+SELECT employee_id, RAND() AS test_id FROM employees;
++-------------+----------------------+
+| employee_id | test_id              |
++-------------+----------------------+
+|         101 |   0.6402947396415237 |
+|         103 |   0.7071622849508769 |
+|         102 |   0.6149272365634584 |
+|         105 |    0.953149358698306 |
+|         104 |      0.9209651145348 |
+|         107 |   0.7453775273127272 |
+|         108 |   0.9639923236928809 |
+|         110 |   0.5838290672598677 |
+|         106 | 0.027168395954341066 |
+|         109 |   0.3843548087257471 |
++-------------+----------------------+
+22.Use CEIL and FLOOR on a floating salary
+
+SELECT salary, CEIL(salary) AS ceiling, FLOOR(salary) AS floor FROM employees;
++---------+---------+-------+
+| salary  | ceiling | floor |
++---------+---------+-------+
+| 4500.00 |    4500 |  4500 |
+| 5200.00 |    5200 |  5200 |
+| 6700.00 |    6700 |  6700 |
+| 6700.00 |    6700 |  6700 |
+| 4000.00 |    4000 |  4000 |
+| 6000.00 |    6000 |  6000 |
+| 4900.00 |    4900 |  4900 |
+| 3100.00 |    3100 |  3100 |
+| 2700.00 |    2700 |  2700 |
+| 3600.00 |    3600 |  3600 |
++---------+---------+-------+
+23.Use LENGTH() on phone numbers (assume column exists)
+
+
+SELECT phone_number, LENGTH(phone_number) AS phone_length FROM employees;
+-- Note: assumes a `phone_number` column exists
+
+24.Categorize salary: High/Medium/Low using CASE
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN salary >= 6000 THEN 'High'
+    WHEN salary >= 4000 THEN 'Medium'
+    ELSE 'Low'
+  END AS salary_category 
+FROM employees;
++------------+-----------+-----------------+
+| first_name | last_name | salary_category |
++------------+-----------+-----------------+
+| Alice      | Johnson   | Medium          |
+| Bob        | Smith     | Medium          |
+| Carol      | Adams     | High            |
+| David      | Lee       | High            |
+| Eve        | Martins   | Medium          |
+| Frank      | Green     | High            |
+| Grace      | Brown     | Medium          |
+| Hank       | Wilson    | Low             |
+| Ivy        | Clark     | Low             |
+| Jake       | White     | Low             |
++------------+-----------+-----------------+
+
+25.Count digits in salary amount
+
+SELECT salary, LENGTH(CAST(ROUND(salary) AS CHAR)) AS digit_count FROM employees;
++---------+-------------+
+| salary  | digit_count |
++---------+-------------+
+| 4500.00 |           4 |
+| 5200.00 |           4 |
+| 6700.00 |           4 |
+| 6700.00 |           4 |
+| 4000.00 |           4 |
+| 6000.00 |           4 |
+| 4900.00 |           4 |
+| 3100.00 |           4 |
+| 2700.00 |           4 |
+| 3600.00 |           4 |
++---------+-------------+
+26.Show today’s date using CURRENT_DATE
+
+SELECT CURRENT_DATE AS today;
++------------+
+| today      |
++------------+
+| 2025-08-02 |
++------------+
+
+27.Calculate how many days an employee has worked
+
+SELECT first_name, last_name, DATEDIFF(CURRENT_DATE, hire_date) AS days_worked 
+FROM employees;
++------------+-----------+-------------+
+| first_name | last_name | days_worked |
++------------+-----------+-------------+
+| Alice      | Johnson   |        3793 |
+| Bob        | Smith     |        2597 |
+| Carol      | Adams     |        4709 |
+| David      | Lee       |        2036 |
+| Eve        | Martins   |        2061 |
+| Frank      | Green     |        2947 |
+| Grace      | Brown     |        3926 |
+| Hank       | Wilson    |        4549 |
+| Ivy        | Clark     |        1433 |
+| Jake       | White     |        1171 |
++------------+-----------+-------------+
+28.Show employees hired in the current year
+
+SELECT * FROM employees 
+WHERE YEAR(hire_date) = YEAR(CURRENT_DATE);
+
+Empty set
+
+30.Display current date and time using NOW()
+
+SELECT NOW() AS current_datetime;
++---------------------+
+| current_datetime    |
++---------------------+
+| 2025-08-02 18:59:12 |
++---------------------+
+31.Extract the year, month, and day from hire_date
+
+SELECT first_name, last_name,
+  YEAR(hire_date) AS hire_year,
+  MONTH(hire_date) AS hire_month,
+  DAY(hire_date) AS hire_day
+FROM employees;
++------------+-----------+-----------+------------+----------+
+| first_name | last_name | hire_year | hire_month | hire_day |
++------------+-----------+-----------+------------+----------+
+| Alice      | Johnson   |      2015 |          3 |       15 |
+| Bob        | Smith     |      2018 |          6 |       23 |
+| Carol      | Adams     |      2012 |          9 |       10 |
+| David      | Lee       |      2020 |          1 |        5 |
+| Eve        | Martins   |      2019 |         12 |       11 |
+| Frank      | Green     |      2017 |          7 |        8 |
+| Grace      | Brown     |      2014 |         11 |        2 |
+| Hank       | Wilson    |      2013 |          2 |       17 |
+| Ivy        | Clark     |      2021 |          8 |       30 |
+| Jake       | White     |      2022 |          5 |       19 |
++------------+-----------+-----------+------------+----------+
+32.Show employees hired before 2020
+
+SELECT * FROM employees 
+WHERE hire_date < '2020-01-01';
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+| employee_id | first_name | last_name | email                     | hire_date  | salary  | department_id |
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+|         101 | Alice      | Johnson   | alice.johnson@company.com | 2015-03-15 | 4500.00 |             1 |
+|         102 | Bob        | Smith     | bob.smith@company.com     | 2018-06-23 | 5200.00 |             3 |
+|         103 | Carol      | Adams     | carol.adams@company.com   | 2012-09-10 | 6700.00 |             2 |
+|         105 | Eve        | Martins   | eve.martins@company.com   | 2019-12-11 | 4000.00 |             3 |
+|         106 | Frank      | Green     | frank.green@company.com   | 2017-07-08 | 6000.00 |             8 |
+|         107 | Grace      | Brown     | grace.brown@company.com   | 2014-11-02 | 4900.00 |             5 |
+|         108 | Hank       | Wilson    | hank.wilson@company.com   | 2013-02-17 | 3100.00 |             6 |
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+33.List projects that ended in the last 30 days
+
+SELECT * FROM projects 
+WHERE end_date IS NOT NULL 
+AND DATEDIFF(CURRENT_DATE, end_date) <= 30;
+
+Empty set
+
+34.Calculate total days between project start and end dates
+
+SELECT project_name, DATEDIFF(end_date, start_date) AS total_days 
+FROM projects 
+WHERE end_date IS NOT NULL;
++-----------------------+------------+
+| project_name          | total_days |
++-----------------------+------------+
+| HR Revamp             |        364 |
+| Finance Automation    |        350 |
+| Marketing Blitz 2025  |        149 |
+| Legal Compliance      |        184 |
+| Customer Portal       |        364 |
+| Sales Booster         |        364 |
+| Procurement Tracker   |        245 |
+| Operations Streamline |        365 |
++-----------------------+------------+
+35.Format date: ‘2025-07-23’ to ‘July 23, 2025’ (use CONCAT)
+
+SELECT CONCAT(MONTHNAME('2025-07-23'), ' ', DAY('2025-07-23'), ', ', YEAR('2025-07-23')) AS formatted_date;
++----------------+
+| formatted_date |
++----------------+
+| July 23, 2025  |
++----------------+
+36.CASE: if project still active (end_date IS NULL), 
+
+SELECT project_name,
+  CASE 
+    WHEN end_date IS NULL THEN 'Ongoing'
+    ELSE 'Completed'
+  END AS project_status 
+FROM projects;
++---------------------------+----------------+
+| project_name              | project_status |
++---------------------------+----------------+
+| HR Revamp                 | Completed      |
+| Finance Automation        | Completed      |
+| IT Infrastructure Upgrade | Ongoing        |
+| Marketing Blitz 2025      | Completed      |
+| Legal Compliance          | Completed      |
+| Customer Portal           | Completed      |
+| Sales Booster             | Completed      |
+| R&D Pilot                 | Ongoing        |
+| Procurement Tracker       | Completed      |
+| Operations Streamline     | Completed      |
++---------------------------+----------------+
+37.Use CASE to label salaries
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN salary >= 6000 THEN 'High'
+    WHEN salary >= 4000 THEN 'Medium'
+    ELSE 'Low'
+  END AS salary_label
+FROM employees;
++------------+-----------+--------------+
+| first_name | last_name | salary_label |
++------------+-----------+--------------+
+| Alice      | Johnson   | Medium       |
+| Bob        | Smith     | Medium       |
+| Carol      | Adams     | High         |
+| David      | Lee       | High         |
+| Eve        | Martins   | Medium       |
+| Frank      | Green     | High         |
+| Grace      | Brown     | Medium       |
+| Hank       | Wilson    | Low          |
+| Ivy        | Clark     | Low          |
+| Jake       | White     | Low          |
++------------+-----------+--------------+
+38.Use COALESCE to show ‘No Email’ if email is NULL
+
+SELECT first_name, last_name, COALESCE(email, 'No Email') AS email_address
+FROM employees;
++------------+-----------+---------------------------+
+| first_name | last_name | email_address             |
++------------+-----------+---------------------------+
+| Alice      | Johnson   | alice.johnson@company.com |
+| Bob        | Smith     | bob.smith@company.com     |
+| Carol      | Adams     | carol.adams@company.com   |
+| David      | Lee       | david.lee@company.com     |
+| Eve        | Martins   | eve.martins@company.com   |
+| Frank      | Green     | frank.green@company.com   |
+| Grace      | Brown     | grace.brown@company.com   |
+| Hank       | Wilson    | hank.wilson@company.com   |
+| Ivy        | Clark     | ivy.clark@company.com     |
+| Jake       | White     | jake.white@company.com    |
++------------+-----------+---------------------------+
+39.If hire_date < 2015, mark as ‘Veteran’
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN hire_date < '2015-01-01' THEN 'Veteran'
+    ELSE 'New'
+  END AS experience_status
+FROM employees;
++------------+-----------+-------------------+
+| first_name | last_name | experience_status |
++------------+-----------+-------------------+
+| Alice      | Johnson   | New               |
+| Bob        | Smith     | New               |
+| Carol      | Adams     | Veteran           |
+| David      | Lee       | New               |
+| Eve        | Martins   | New               |
+| Frank      | Green     | New               |
+| Grace      | Brown     | Veteran           |
+| Hank       | Wilson    | Veteran           |
+| Ivy        | Clark     | New               |
+| Jake       | White     | New               |
++------------+-----------+-------------------+
+40.If salary is NULL, default it to 3000 using COALESCE
+
+SELECT first_name, last_name, COALESCE(salary, 3000) AS salary_defaulted
+FROM employees;
++------------+-----------+------------------+
+| first_name | last_name | salary_defaulted |
++------------+-----------+------------------+
+| Alice      | Johnson   |          4500.00 |
+| Bob        | Smith     |          5200.00 |
+| Carol      | Adams     |          6700.00 |
+| David      | Lee       |          6700.00 |
+| Eve        | Martins   |          4000.00 |
+| Frank      | Green     |          6000.00 |
+| Grace      | Brown     |          4900.00 |
+| Hank       | Wilson    |          3100.00 |
+| Ivy        | Clark     |          2700.00 |
+| Jake       | White     |          3600.00 |
++------------+-----------+------------------+
+41.Categorize departments (IT, HR, Other)
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN department_name = 'Information Technology' THEN 'IT'
+    WHEN department_name = 'Human Resources' THEN 'HR'
+    ELSE 'Other'
+  END AS department_category
+FROM employees
+JOIN departments ON employees.department_id = departments.department_id;
++------------+-----------+---------------------+
+| first_name | last_name | department_category |
++------------+-----------+---------------------+
+| Alice      | Johnson   | HR                  |
+| Bob        | Smith     | IT                  |
+| Carol      | Adams     | Other               |
+| David      | Lee       | Other               |
+| Eve        | Martins   | IT                  |
+| Frank      | Green     | Other               |
+| Grace      | Brown     | Other               |
+| Hank       | Wilson    | Other               |
+| Ivy        | Clark     | Other               |
+| Jake       | White     | Other               |
++------------+-----------+---------------------+
+42.If employee has no project, mark as ‘Unassigned’
+
+SELECT e.first_name, e.last_name,
+  CASE 
+    WHEN ep.employee_id IS NULL THEN 'Unassigned'
+    ELSE 'Assigned'
+  END AS assignment_status
+FROM employees e
+LEFT JOIN employee_projects ep ON e.employee_id = ep.employee_id;
++------------+-----------+-------------------+
+| first_name | last_name | assignment_status |
++------------+-----------+-------------------+
+| Alice      | Johnson   | Assigned          |
+| Bob        | Smith     | Assigned          |
+| Carol      | Adams     | Assigned          |
+| David      | Lee       | Assigned          |
+| Eve        | Martins   | Assigned          |
+| Frank      | Green     | Assigned          |
+| Grace      | Brown     | Assigned          |
+| Hank       | Wilson    | Assigned          |
+| Ivy        | Clark     | Assigned          |
+| Jake       | White     | Assigned          |
++------------+-----------+-------------------+
+43.Show tax band based on salary
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN salary >= 6000 THEN '30% Tax Band'
+    WHEN salary >= 4000 THEN '20% Tax Band'
+    ELSE '10% Tax Band'
+  END AS tax_band
+FROM employees;
++------------+-----------+--------------+
+| first_name | last_name | tax_band     |
++------------+-----------+--------------+
+| Alice      | Johnson   | 20% Tax Band |
+| Bob        | Smith     | 20% Tax Band |
+| Carol      | Adams     | 30% Tax Band |
+| David      | Lee       | 30% Tax Band |
+| Eve        | Martins   | 20% Tax Band |
+| Frank      | Green     | 30% Tax Band |
+| Grace      | Brown     | 20% Tax Band |
+| Hank       | Wilson    | 10% Tax Band |
+| Ivy        | Clark     | 10% Tax Band |
+| Jake       | White     | 10% Tax Band |
++------------+-----------+--------------+
+44.Use nested CASE to label project duration
+
+SELECT project_name,
+  CASE 
+    WHEN DATEDIFF(end_date, start_date) IS NULL THEN 'Unknown'
+    WHEN DATEDIFF(end_date, start_date) < 100 THEN 'Short-Term'
+    WHEN DATEDIFF(end_date, start_date) <= 365 THEN 'Medium-Term'
+    ELSE 'Long-Term'
+  END AS duration_label
+FROM projects;
++---------------------------+----------------+
+| project_name              | duration_label |
++---------------------------+----------------+
+| HR Revamp                 | Medium-Term    |
+| Finance Automation        | Medium-Term    |
+| IT Infrastructure Upgrade | Unknown        |
+| Marketing Blitz 2025      | Medium-Term    |
+| Legal Compliance          | Medium-Term    |
+| Customer Portal           | Medium-Term    |
+| Sales Booster             | Medium-Term    |
+| R&D Pilot                 | Unknown        |
+| Procurement Tracker       | Medium-Term    |
+| Operations Streamline     | Medium-Term    |
++---------------------------+----------------+
+45.Use CASE with MOD to show even/odd salary IDs
+
+SELECT employee_id, first_name,
+  CASE 
+    WHEN MOD(employee_id, 2) = 0 THEN 'Even ID'
+    ELSE 'Odd ID'
+  END AS id_parity
+FROM employees;
++-------------+------------+-----------+
+| employee_id | first_name | id_parity |
++-------------+------------+-----------+
+|         101 | Alice      | Odd ID    |
+|         102 | Bob        | Even ID   |
+|         103 | Carol      | Odd ID    |
+|         104 | David      | Even ID   |
+|         105 | Eve        | Odd ID    |
+|         106 | Frank      | Even ID   |
+|         107 | Grace      | Odd ID    |
+|         108 | Hank       | Even ID   |
+|         109 | Ivy        | Odd ID    |
+|         110 | Jake       | Even ID   |
++-------------+------------+-----------+
+46.Combine COALESCE + CONCAT for fallback names
+
+SELECT COALESCE(CONCAT(first_name, ' ', last_name), 'Unnamed Employee') AS display_name
+FROM employees;
++---------------+
+| display_name  |
++---------------+
+| Alice Johnson |
+| Bob  Smith    |
+| Carol Adams   |
+| David  Lee    |
+| Eve Martins   |
+| Frank  Green  |
+| Grace Brown   |
+| Hank  Wilson  |
+| Ivy Clark     |
+| Jake  White   |
++---------------+
+47.CASE with LENGTH(): if name length > 10, label “Long Name”
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN LENGTH(CONCAT(first_name, last_name)) > 10 THEN 'Long Name'
+    ELSE 'Short Name'
+  END AS name_label
+FROM employees;
++------------+-----------+------------+
+| first_name | last_name | name_label |
++------------+-----------+------------+
+| Alice      | Johnson   | Long Name  |
+| Bob        | Smith     | Short Name |
+| Carol      | Adams     | Short Name |
+| David      | Lee       | Short Name |
+| Eve        | Martins   | Short Name |
+| Frank      | Green     | Long Name  |
+| Grace      | Brown     | Short Name |
+| Hank       | Wilson    | Long Name  |
+| Ivy        | Clark     | Short Name |
+| Jake       | White     | Short Name |
++------------+-----------+------------+
+48.CASE + UPPER(): if email has ‘TEST’, mark as dummy account
+
+SELECT email,
+  CASE 
+    WHEN UPPER(email) LIKE '%TEST%' THEN 'Dummy Account'
+    ELSE 'Real Account'
+  END AS account_type
+FROM employees;
++---------------------------+--------------+
+| email                     | account_type |
++---------------------------+--------------+
+| alice.johnson@company.com | Real Account |
+| bob.smith@company.com     | Real Account |
+| carol.adams@company.com   | Real Account |
+| david.lee@company.com     | Real Account |
+| eve.martins@company.com   | Real Account |
+| frank.green@company.com   | Real Account |
+| grace.brown@company.com   | Real Account |
+| hank.wilson@company.com   | Real Account |
+| ivy.clark@company.com     | Real Account |
+| jake.white@company.com    | Real Account |
++---------------------------+--------------+
+49.CASE: Show seniority based on hire year (e.g., Junior/Senior)
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN YEAR(hire_date) <= 2015 THEN 'Senior'
+    WHEN YEAR(hire_date) <= 2020 THEN 'Mid-Level'
+    ELSE 'Junior'
+  END AS seniority
+FROM employees;
++------------+-----------+-----------+
+| first_name | last_name | seniority |
++------------+-----------+-----------+
+| Alice      | Johnson   | Senior    |
+| Bob        | Smith     | Mid-Level |
+| Carol      | Adams     | Senior    |
+| David      | Lee       | Mid-Level |
+| Eve        | Martins   | Mid-Level |
+| Frank      | Green     | Mid-Level |
+| Grace      | Brown     | Senior    |
+| Hank       | Wilson    | Senior    |
+| Ivy        | Clark     | Junior    |
+| Jake       | White     | Junior    |
++------------+-----------+-----------+
+50.Use CASE to determine salary increment range
+
+SELECT first_name, last_name,
+  CASE 
+    WHEN salary >= 6000 THEN 'Increment: 5%'
+    WHEN salary >= 4000 THEN 'Increment: 10%'
+    ELSE 'Increment: 15%'
+  END AS increment_policy
+FROM employees;
++------------+-----------+------------------+
+| first_name | last_name | increment_policy |
++------------+-----------+------------------+
+| Alice      | Johnson   | Increment: 10%   |
+| Bob        | Smith     | Increment: 10%   |
+| Carol      | Adams     | Increment: 5%    |
+| David      | Lee       | Increment: 5%    |
+| Eve        | Martins   | Increment: 10%   |
+| Frank      | Green     | Increment: 5%    |
+| Grace      | Brown     | Increment: 10%   |
+| Hank       | Wilson    | Increment: 15%   |
+| Ivy        | Clark     | Increment: 15%   |
+| Jake       | White     | Increment: 15%   |
++------------+-----------+------------------+
+51.Use CASE with CURDATE() to determine anniversary month
+
+SELECT first_name, last_name, MONTH(hire_date) AS hire_month,
+  CASE 
+    WHEN MONTH(hire_date) = MONTH(CURDATE()) THEN 'Anniversary Month'
+    ELSE 'Not Anniversary Month'
+  END AS anniversary_status
+FROM employees;
+| first_name | last_name | hire_month | anniversary_status    |
++------------+-----------+------------+-----------------------+
+| Alice      | Johnson   |          3 | Not Anniversary Month |
+| Bob        | Smith     |          6 | Not Anniversary Month |
+| Carol      | Adams     |          9 | Not Anniversary Month |
+| David      | Lee       |          1 | Not Anniversary Month |
+| Eve        | Martins   |         12 | Not Anniversary Month |
+| Frank      | Green     |          7 | Not Anniversary Month |
+| Grace      | Brown     |         11 | Not Anniversary Month |
+| Hank       | Wilson    |          2 | Not Anniversary Month |
+| Ivy        | Clark     |          8 | Anniversary Month     |
+| Jake       | White     |          5 | Not Anniversary Month |
++------------+-----------+------------+-----------------------+
